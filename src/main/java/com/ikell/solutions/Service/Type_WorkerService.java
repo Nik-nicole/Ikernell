@@ -31,10 +31,10 @@ public class Type_WorkerService implements Idao<Type_Worker, Long>{
     }
 
     @Override
-    public void delete(Long id) {
-        Type_Worker type_worker=this.type_workerRepository.getById(id);
-        if(type_worker !=null){
+    public void delete(Long id){
+        Type_Worker  type_worker=this.type_workerRepository.getById(id);
+        if (type_worker !=null){
             this.type_workerRepository.delete(type_worker);
+        }
          }
-}
 }

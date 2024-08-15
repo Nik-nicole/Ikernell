@@ -25,7 +25,8 @@ public class ProjectBusiness {
     public Project findById(Long id){
         return this.projectService.getById(id);
     }
-    public boolean add (ProjectDTO projectDTO){
+
+    public Boolean add (ProjectDTO projectDTO){
       try{
           Project project=modelMapper.map(projectDTO,Project.class);
           this.projectService.save(project);
@@ -36,6 +37,20 @@ public class ProjectBusiness {
 
 
     }
+
+    public Boolean Delete(ProjectDTO projectDTO){
+        try{
+            Project project=modelMapper.map(projectDTO,Project.class);
+            this.projectService.delete(project.getId());
+            return Boolean.TRUE;
+        }catch (Exception e){
+            return Boolean.FALSE;
+        }
+
+    }
+
+
+
 
 
 }
