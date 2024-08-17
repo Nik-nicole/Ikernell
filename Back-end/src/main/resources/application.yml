@@ -1,11 +1,24 @@
 spring:
+
+  application:
+    name: ikernell
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/Ikernellsolutions
-    username: fabrica
-    password: fabrica2024*
+    url: jdbc:postgresql://localhost:5432/ikernell
+    username: postgres
+    password: "nicolleMarquez07"
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+    #      ddl-auto: none
+
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  main:
+    allow-circular-references: true
+server:
+  port: 5423

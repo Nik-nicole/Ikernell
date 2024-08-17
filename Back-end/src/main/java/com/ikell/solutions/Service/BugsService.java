@@ -16,6 +16,19 @@ public class BugsService implements Idao<Bugs, Long> {
     private BugsRepository bugsRepository;
 
     @Override
-    private List<Bugs> findAll
+    public List<Bugs> findAll(){ return this.bugsRepository.findAll(); }
 
+    @Override
+    public Bugs getById(Long aLong){ return this.bugsRepository.getReferenceById(aLong); }
+
+    @Override
+    public Bugs save(Bugs object){ return this.bugsRepository.save(object); }
+
+    @Override
+    public void delete(Long id){
+        Bugs bugs=this.bugsRepository.getReferenceById(id);
+        if (bugs !=null){
+            this.bugsRepository.delete(bugs);
+        }
+    }
 }

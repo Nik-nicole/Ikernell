@@ -16,4 +16,5 @@ public interface Idao <T, ID> {
     public void delete ( Long id);
 
 
+
 }
