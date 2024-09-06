@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ikernell
     username: postgres
-    password: "nicolleMarquez07"
+    password: "sql"
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -21,4 +21,4 @@ spring:
   main:
     allow-circular-references: true
 server:
-  port: 5423
+  port: 8080

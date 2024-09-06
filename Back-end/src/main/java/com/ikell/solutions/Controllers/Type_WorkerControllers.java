@@ -44,7 +44,7 @@ public class Type_WorkerControllers {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTypeWorker(@PathVariable Long id) {
+    public ResponseEntity<String> updateTypeWorker(@PathVariable Long id) {
         Type_WorkerDTO typeWorkerDTO = new Type_WorkerDTO();
         typeWorkerDTO.setId(id);
         Boolean success = typeWorkerBusiness.delete(typeWorkerDTO);

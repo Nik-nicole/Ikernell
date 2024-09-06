@@ -1,6 +1,7 @@
-package com.ikell.solutions.Controller;
+package com.ikell.solutions.Controllers;
 
 import com.ikell.solutions.Business.WorkerBusiness;
+import com.ikell.solutions.DTO.Type_WorkerDTO;
 import com.ikell.solutions.DTO.WorkerDTO;
 import com.ikell.solutions.Entities.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,14 @@ public class WorkerControllers {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    /*@PostMapping
+    public ResponseEntity<String> createWorker(@RequestBody WorkerDTO workerDTO) {
+        Boolean success = workerBusiness.add(workerDTO);
+        if (success) {
+            return new ResponseEntity<>("Type Worker created successfully", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Failed to create  Worker", HttpStatus.BAD_REQUEST);
+        }*/
 
 
     @PostMapping
@@ -47,6 +56,7 @@ public class WorkerControllers {
             e.printStackTrace();
             return new ResponseEntity<>("Error processing request: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
     }
 
     @DeleteMapping("/{id}")
