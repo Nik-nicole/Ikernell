@@ -22,7 +22,7 @@ public class BugsService implements Idao<Bugs, Long> {
     public Bugs getById(Long aLong){ return this.bugsRepository.getReferenceById(aLong); }
 
     @Override
-    public Bugs save(Bugs object){ return this.bugsRepository.save(object); }
+    public void save(Bugs object){this.bugsRepository.save(object); }
 
     @Override
     public void delete(Long id){

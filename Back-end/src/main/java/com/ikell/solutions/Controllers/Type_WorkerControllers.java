@@ -1,4 +1,4 @@
-package com.ikell.solutions.Controller;
+package com.ikell.solutions.Controllers;
 
 import com.ikell.solutions.Business.Type_WorkerBusiness;
 import com.ikell.solutions.DTO.Type_WorkerDTO;

@@ -1,15 +1,18 @@
 package com.ikell.solutions.Controllers;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ikell.solutions.Business.WorkerBusiness;
 import com.ikell.solutions.DTO.Type_WorkerDTO;
 import com.ikell.solutions.DTO.WorkerDTO;
 import com.ikell.solutions.Entities.Worker;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/workers")
@@ -18,13 +21,13 @@ public class WorkerControllers {
     @Autowired
     private WorkerBusiness workerBusiness;
 
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<Worker>> getAllWorkers() {
         List<Worker> workers = workerBusiness.findAll();
         return new ResponseEntity<>(workers, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<Worker> getWorkerById(@PathVariable Long id) {
         Worker worker = workerBusiness.findById(id);
         if (worker != null) {
@@ -32,7 +35,7 @@ public class WorkerControllers {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
+    }/*
     /*@PostMapping
     public ResponseEntity<String> createWorker(@RequestBody WorkerDTO workerDTO) {
         Boolean success = workerBusiness.add(workerDTO);
@@ -43,10 +46,12 @@ public class WorkerControllers {
         }*/
 
 
-    @PostMapping
-    public ResponseEntity<String> createWorker(@RequestBody WorkerDTO workerDTO) {
+    @PostMapping("/add")
+    public Map<String, Object> add(@RequestBody Map<String, Object> json) {
         try {
-            Boolean success = workerBusiness.add(workerDTO);
+            WorkerDTO workerDTO = new WorkerDTO();
+            JSONObject jsonObject = new JSONObject(json);
+
             if (success) {
                 return new ResponseEntity<>("Worker created successfully", HttpStatus.CREATED);
             } else {
@@ -56,7 +61,6 @@ public class WorkerControllers {
             e.printStackTrace();
             return new ResponseEntity<>("Error processing request: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @DeleteMapping("/{id}")

@@ -23,7 +23,8 @@ public class User {
     @Column (nullable = false)
     private String password;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne
+    @JoinColumn(name = "worker_id", referencedColumnName = "id")
     private  Worker worker;
 
 

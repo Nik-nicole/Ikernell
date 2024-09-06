@@ -11,7 +11,7 @@ public interface Idao <T, ID> {
 
     public T getById(ID id);
 
-    public T save (T object);
+    public void save (T object);
 
     public void delete ( Long id);
 

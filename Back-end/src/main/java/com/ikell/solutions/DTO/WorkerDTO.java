@@ -1,9 +1,10 @@
 package com.ikell.solutions.DTO;
 
-import com.ikell.solutions.Entities.Worker;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -12,13 +13,11 @@ public class WorkerDTO  {
 
     private Long id;
     private String name;
-    private String last_name;
+    private String lastName;  // Cambiado de last_name a lastName
     private String email;
-    private String Direction;
-    private String Date_born;
+    private String direction;  // Cambiado de Direction a direction
+    private Date dateBorn;  // Cambiado de String a LocalDate y renombrado de Date_born a dateBorn
+    private Integer identification;  // Cambiado de Identificacion a identification
     private String profesion;
-    private String Especiality_dev;
-    private String password;
-    private Integer Identificacion;
-
+    private String especialityDev;  // Cambiado de Especiality_dev a especialityDev
 }

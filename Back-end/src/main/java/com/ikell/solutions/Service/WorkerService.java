@@ -13,7 +13,6 @@ public class WorkerService implements Idao <Worker, Long>{
     @Autowired
     private WorkerRepository workerRepository;
 
-
     @Override
     public List<Worker> findAll() {
         return this.workerRepository.findAll();
@@ -25,8 +24,7 @@ public class WorkerService implements Idao <Worker, Long>{
     }
 
     @Override
-    public Worker save(Worker object) {
-        return workerRepository.save(object);
+    public void save(Worker object){this.workerRepository.save(object);
     }
 
     @Override

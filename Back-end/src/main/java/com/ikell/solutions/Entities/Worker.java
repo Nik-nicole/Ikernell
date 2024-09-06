@@ -24,25 +24,25 @@ public class Worker {
     private String name;
 
     @Column(nullable = false)
-    private String last_name;
+    private String lastName;
 
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String  Direction;
+    private String  direction;
 
     @Column(nullable = false, unique = true)
-    private Date date_born;
+    private Date dateBorn;
 
     @Column(nullable = false, unique = true)
-    private  Integer Identificacion;
+    private  Integer identificacion;
 
     @Column(nullable = false)
     private  String profesion;
 
     @Column(nullable = false)
-    private String Especiality_dev;
+    private String especialityDev;
 
     @ManyToMany
     @JoinTable(name="WorkersDetail",
@@ -53,8 +53,7 @@ public class Worker {
     @ManyToMany(mappedBy = "id_workerList",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Project> id_projectList;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "worker")
     private User user;
 
 }
