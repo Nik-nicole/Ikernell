@@ -19,16 +19,18 @@ public class WorkerBusiness {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    //public List<Worker> findAll() {return workerRepository.findAll();}
+    public List<Worker> findAll() {return workerService.findAll();}
 
-    //public Worker findById(Long id) {return this.workerService.getById(id);}
+    public Worker findById(Long id) {return this.workerService.getById(id);}
+
 
     public Boolean add(WorkerDTO workerDTO) {
         try {
             Worker worker = modelMapper.map(workerDTO, Worker.class);
-            this.workerService.save(worker);
+            workerService.save(worker); // Llama al servicio para guardar el trabajador
             return true;
         } catch (Exception e) {
+            e.printStackTrace(); // Registra el error para depuración
             return false;
         }
     }

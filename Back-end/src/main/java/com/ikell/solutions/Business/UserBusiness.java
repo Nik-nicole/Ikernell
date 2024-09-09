@@ -26,7 +26,7 @@ public class UserBusiness {
     public Boolean add(UserDTO userDTO) {
         try{
             User user=modelMapper.map(userDTO,User.class);
-            this.userService.save(user);
+            userService.save(user);
             return Boolean.TRUE;
         }catch (Exception e){
             return  Boolean.FALSE;

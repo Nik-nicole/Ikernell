@@ -32,17 +32,17 @@ public class Worker {
     @Column(nullable = false, unique = true)
     private String  direction;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Date dateBorn;
 
     @Column(nullable = false, unique = true)
-    private  Integer identificacion;
+    private  Integer identification;
+
+    @Column
+    private  String profession;
 
     @Column(nullable = false)
-    private  String profesion;
-
-    @Column(nullable = false)
-    private String especialityDev;
+    private String specialtyDev;
 
     @ManyToMany
     @JoinTable(name="WorkersDetail",

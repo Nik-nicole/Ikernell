@@ -18,6 +18,6 @@ public class WorkerDTO  {
     private String direction;  // Cambiado de Direction a direction
     private Date dateBorn;  // Cambiado de String a LocalDate y renombrado de Date_born a dateBorn
     private Integer identification;  // Cambiado de Identificacion a identification
-    private String profesion;
-    private String especialityDev;  // Cambiado de Especiality_dev a especialityDev
+    private String profession;
+    private String specialtyDev;  // Cambiado de Especiality_dev a especialityDev
 }

@@ -5,12 +5,15 @@ import com.ikell.solutions.Business.WorkerBusiness;
 import com.ikell.solutions.DTO.Type_WorkerDTO;
 import com.ikell.solutions.DTO.WorkerDTO;
 import com.ikell.solutions.Entities.Worker;
+import org.apache.coyote.Response;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +24,7 @@ public class WorkerControllers {
     @Autowired
     private WorkerBusiness workerBusiness;
 
-    /*@GetMapping
+    @GetMapping
     public ResponseEntity<List<Worker>> getAllWorkers() {
         List<Worker> workers = workerBusiness.findAll();
         return new ResponseEntity<>(workers, HttpStatus.OK);
@@ -45,23 +48,38 @@ public class WorkerControllers {
             return new ResponseEntity<>("Failed to create  Worker", HttpStatus.BAD_REQUEST);
         }*/
 
-
     @PostMapping("/add")
     public Map<String, Object> add(@RequestBody Map<String, Object> json) {
+        Map<String, Object> response = new HashMap<>();
         try {
             WorkerDTO workerDTO = new WorkerDTO();
             JSONObject jsonObject = new JSONObject(json);
 
-            if (success) {
-                return new ResponseEntity<>("Worker created successfully", HttpStatus.CREATED);
+            JSONObject dataObject = jsonObject.getJSONObject("data");
+            workerDTO.setName(dataObject.getString("name"));
+            workerDTO.setLastName(dataObject.getString("lastName"));
+            workerDTO.setEmail(dataObject.getString("email"));
+            workerDTO.setDirection(dataObject.getString("direction"));
+            workerDTO.setDateBorn(new Date(dataObject.getLong("dateBorn")));
+            workerDTO.setIdentification(dataObject.getInt("identification"));
+            workerDTO.setProfession(dataObject.getString("profession"));
+            workerDTO.setSpecialtyDev(dataObject.getString("specialtyDev"));
+
+            if (this.workerBusiness.add(workerDTO)) {
+                response.put("message", "Worker added successfully");
+                response.put("worker", workerDTO);
+                return (response);
             } else {
-                return new ResponseEntity<>("Failed to create worker", HttpStatus.BAD_REQUEST);
+                response.put("message", "Failed to add worker");
+                return (response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Error processing request: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            response.put("message", "Error processing request: " + e.getMessage());
+            return (response);
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteWorker(@PathVariable Long id) {
