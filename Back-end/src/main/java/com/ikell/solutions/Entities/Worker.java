@@ -1,6 +1,7 @@
 package com.ikell.solutions.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,22 +39,23 @@ public class Worker {
     @Column(nullable = false, unique = true)
     private  Integer identification;
 
-    @Column
+    @Column(nullable = false)
     private  String profession;
 
     @Column(nullable = false)
     private String specialtyDev;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinTable(name="WorkersDetail",
-              joinColumns=@JoinColumn(name="fk_id_Type_worke"),
+              joinColumns=@JoinColumn(name="fk_id_Type_worker"),
               inverseJoinColumns = @JoinColumn(name = "fk_id_worked"))
     private List<Type_Worker> idf_typeWorkers;
 
-    @ManyToMany(mappedBy = "id_workerList",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "id_workerList",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private List<Project> id_projectList;
 
-    @OneToOne(mappedBy = "worker")
+    @OneToOne(mappedBy = "worker", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private User user;
 
 }

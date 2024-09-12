@@ -19,7 +19,7 @@ public class WorkerBusiness {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    public List<Worker> findAll() {return workerService.findAll();}
+    public List<Worker> findAllWorker() {return workerService.findAll();}
 
     public Worker findById(Long id) {return this.workerService.getById(id);}
 

@@ -1,6 +1,8 @@
 package com.ikell.solutions.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +27,8 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "worker_id", referencedColumnName = "id")
-    private  Worker worker;
+    @JsonBackReference
+    private Worker worker;
 
 
 }

@@ -25,12 +25,15 @@ public class WorkerControllers {
     private WorkerBusiness workerBusiness;
 
     @GetMapping
-    public ResponseEntity<List<Worker>> getAllWorkers() {
-        List<Worker> workers = workerBusiness.findAll();
-        return new ResponseEntity<>(workers, HttpStatus.OK);
+    public ResponseEntity<Map<String,Object>> getAllWorkers() {
+        List<Worker> workers = workerBusiness.findAllWorker();
+        Map<String,Object> response=new HashMap<>();
+        response.put("status",HttpStatus.ACCEPTED);
+        response.put("data", workers);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/worker/{id}")
     public ResponseEntity<Worker> getWorkerById(@PathVariable Long id) {
         Worker worker = workerBusiness.findById(id);
         if (worker != null) {
@@ -39,6 +42,11 @@ public class WorkerControllers {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }/*
+
+    @GetMapping("/person/{name}")
+	public List<Person> findByName(@PathVariable("name") String name) {
+		return repository.findByName(name);
+	}
     /*@PostMapping
     public ResponseEntity<String> createWorker(@RequestBody WorkerDTO workerDTO) {
         Boolean success = workerBusiness.add(workerDTO);
@@ -49,13 +57,14 @@ public class WorkerControllers {
         }*/
 
     @PostMapping("/add")
-    public Map<String, Object> add(@RequestBody Map<String, Object> json) {
+    public ResponseEntity<Map<String, Object>> add(@RequestBody Map<String, Object> json) {
         Map<String, Object> response = new HashMap<>();
         try {
             WorkerDTO workerDTO = new WorkerDTO();
             JSONObject jsonObject = new JSONObject(json);
 
             JSONObject dataObject = jsonObject.getJSONObject("data");
+            workerDTO.setId(0L);
             workerDTO.setName(dataObject.getString("name"));
             workerDTO.setLastName(dataObject.getString("lastName"));
             workerDTO.setEmail(dataObject.getString("email"));
@@ -68,15 +77,15 @@ public class WorkerControllers {
             if (this.workerBusiness.add(workerDTO)) {
                 response.put("message", "Worker added successfully");
                 response.put("worker", workerDTO);
-                return (response);
+                return new ResponseEntity<>(response,HttpStatus.OK);
             } else {
                 response.put("message", "Failed to add worker");
-                return (response);
+                return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.put("message", "Error processing request: " + e.getMessage());
-            return (response);
+            return new ResponseEntity<>(response,HttpStatus.CONFLICT);
         }
     }
 

@@ -19,9 +19,7 @@ import java.util.List;
 public class Project {
 
 
-    enum states{
-        ACTIVO,INACTIVO,EJECUCION
-    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +31,16 @@ public class Project {
     @Column(nullable = false)
     private String Description;
 
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date date_start;
 
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date date_end;
 
-    @Column(nullable = false)
-    private Enum<states> state;
+    @Column
+    private String state;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "projec_workeds",
