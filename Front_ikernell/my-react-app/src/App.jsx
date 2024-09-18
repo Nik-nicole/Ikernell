@@ -1,21 +1,18 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./Components/Layout"
-import Home from "./pages/Home";
-import Members from "./pages/Members";
+import React from "react";
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import Dashboard from "./components/sidebar"
+import Sidebar from "./components/sidebar";
 
-
-function App(){
+export default function App(){
   return(
-    
-    <BrowserRouter>
-      <Routes>
-      <Route path="/" element={<Layout/>}>
-          <Route index element={<Home/>}/>
-          <Route path="members" element={<Members/>}/>
-      </Route>
+    <>
+     <BrowserRouter>
+     <Routes>
+        <Route path="/" element={<Sidebar/>}/>
+          <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route/>
       </Routes>
-    </BrowserRouter>
-  );
+     </BrowserRouter>
+    </>
+  )
 }
-
-export default App;

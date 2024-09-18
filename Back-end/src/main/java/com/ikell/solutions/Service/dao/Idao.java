@@ -1,8 +1,5 @@
 package com.ikell.solutions.Service.dao;
 
-import com.ikell.solutions.Entities.Project;
-import com.ikell.solutions.Entities.Worker;
-
 import java.util.List;
 
 public interface Idao <T, ID> {
@@ -13,8 +10,5 @@ public interface Idao <T, ID> {
 
     public void save (T object);
 
-    public void delete ( Long id);
-
-
-
+    public void delete (T object);
 }

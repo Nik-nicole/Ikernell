@@ -5,6 +5,7 @@ import  Home from "./pages/Home"
 import Projects from "./pages/Projects";
 import Dashboard from "./components/Sidenav"
 import Sidenav from "./components/Sidenav"
+import Workers from "./pages/Workers";
 
 export default function App(){
   return(
@@ -14,6 +15,7 @@ export default function App(){
         <Route path="/" element={<Sidenav/>}/>
           <Route path="/Home" element={<Home/>}/>
           <Route path="/projects" element = {<Projects />}/>
+          <Route path="/Workers" element ={<Workers/>}/>
         <Route/>
       </Routes>
      </BrowserRouter>

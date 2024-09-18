@@ -3,7 +3,6 @@ package com.ikell.solutions.Service;
 import com.ikell.solutions.Entities.Bugs;
 import com.ikell.solutions.Repository.BugsRepository;
 import com.ikell.solutions.Service.dao.Idao;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +24,6 @@ public class BugsService implements Idao<Bugs, Long> {
     public void save(Bugs object){this.bugsRepository.save(object); }
 
     @Override
-    public void delete(Long id){
-        Bugs bugs=this.bugsRepository.getReferenceById(id);
-        if (bugs !=null){
-            this.bugsRepository.delete(bugs);
-        }
+    public void delete(Bugs object){this.bugsRepository.delete(object);
     }
 }

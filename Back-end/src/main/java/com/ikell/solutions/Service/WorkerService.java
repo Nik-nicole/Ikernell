@@ -20,15 +20,19 @@ public class WorkerService implements Idao <Worker, Long>{
 
     @Override
     public Worker getById(Long aLong) {
-        return this.workerRepository.getReferenceById(aLong);
+        return this.workerRepository.findById(aLong).orElse(null);
     }
 
     @Override
-    public void save(Worker object){this.workerRepository.save(object);
-    }
+    public void save(Worker object){this.workerRepository.save(object);}
 
     @Override
-    public void delete(Long id) {
+    public void delete(Worker object) {this.workerRepository.delete(object);}
 
+    public boolean existsByEmail(String email){
+        return this.workerRepository.existsByEmail(email);
+    }
+    public boolean existsByIdentification(Integer identification){
+        return  this.workerRepository.existsByIdentification(identification);
     }
 }

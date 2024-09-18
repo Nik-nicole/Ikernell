@@ -1,12 +1,12 @@
 // src/components/Sidebar.jsx
 import React from 'react';
-import { HomeIcon, PresentationChartBarIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, PresentationChartBarIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
 import { Outlet, Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <div className="w-64 h-screen bg-white text-black border-r-2">
+    <div className="w-64 h-screen bg-white text-black border-r-2 ">
       <div className="p-5">
         <h1 className="text-2xl font-bold">Dashboard</h1>
       </div>
@@ -24,8 +24,10 @@ const Sidebar = () => {
             />
             <Link to="/projects">Projects</Link>
           </li>
-          <li className="p-4 hover:bg-slate-100">
-            <Link to="/settings">Settings</Link>
+         
+          <li className="p-4 hover:bg-slate-100 flex flex-row">
+            <UserGroupIcon className="h-6 w-6 text-blue-500 inline mr-3 "/>
+            <Link to="/Workers">Workers</Link>
           </li>
         </ul>
       </nav>

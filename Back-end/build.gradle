@@ -34,8 +34,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.1'
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.json:json:20230227'
-
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+	implementation 'org.json:json:20231013'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'org.json:json:20231013'
 }
 
 tasks.named('test') {

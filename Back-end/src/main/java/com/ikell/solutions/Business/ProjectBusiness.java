@@ -50,11 +50,11 @@ public class ProjectBusiness {
         }
     }
 
-    public Boolean delete(ProjectDTO projectDTO){
+    public Boolean delete(Long id){
         try{
-            Project project=modelMapper.map(projectDTO,Project.class);
-            this.projectService.delete(project.getId());
-            return Boolean.TRUE;
+            Project project = projectService.getById(id);
+            projectService.delete(project);
+            return true;
         }catch (Exception e){
             return Boolean.FALSE;
         }

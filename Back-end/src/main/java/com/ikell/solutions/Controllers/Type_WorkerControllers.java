@@ -44,7 +44,7 @@ public class Type_WorkerControllers {
         }
     }
 
-    @DeleteMapping("/{id}")
+    /*@DeleteMapping("/{id}")
     public ResponseEntity<String> updateTypeWorker(@PathVariable Long id) {
         Type_WorkerDTO typeWorkerDTO = new Type_WorkerDTO();
         typeWorkerDTO.setId(id);
@@ -54,5 +54,5 @@ public class Type_WorkerControllers {
         } else {
             return new ResponseEntity<>("Failed to delete Type Worker", HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 }

@@ -5,12 +5,14 @@ import com.ikell.solutions.Business.WorkerBusiness;
 import com.ikell.solutions.DTO.Type_WorkerDTO;
 import com.ikell.solutions.DTO.WorkerDTO;
 import com.ikell.solutions.Entities.Worker;
+import com.ikell.solutions.Utilities.CustomException;
 import org.apache.coyote.Response;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.events.EventException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -41,20 +43,9 @@ public class WorkerControllers {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }/*
+    }
 
-    @GetMapping("/person/{name}")
-	public List<Person> findByName(@PathVariable("name") String name) {
-		return repository.findByName(name);
-	}
-    /*@PostMapping
-    public ResponseEntity<String> createWorker(@RequestBody WorkerDTO workerDTO) {
-        Boolean success = workerBusiness.add(workerDTO);
-        if (success) {
-            return new ResponseEntity<>("Type Worker created successfully", HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Failed to create  Worker", HttpStatus.BAD_REQUEST);
-        }*/
+
 
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> add(@RequestBody Map<String, Object> json) {
@@ -74,31 +65,40 @@ public class WorkerControllers {
             workerDTO.setProfession(dataObject.getString("profession"));
             workerDTO.setSpecialtyDev(dataObject.getString("specialtyDev"));
 
+
             if (this.workerBusiness.add(workerDTO)) {
                 response.put("message", "Worker added successfully");
                 response.put("worker", workerDTO);
-                return new ResponseEntity<>(response,HttpStatus.OK);
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 response.put("message", "Failed to add worker");
-                return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
+
+        } catch (CustomException e) {
+            response.put("message", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
         } catch (Exception e) {
             e.printStackTrace();
             response.put("message", "Error processing request: " + e.getMessage());
-            return new ResponseEntity<>(response,HttpStatus.CONFLICT);
+            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
         }
     }
 
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteWorker(@PathVariable Long id) {
-        WorkerDTO workerDTO = new WorkerDTO();  // Se crea un DTO para pasar solo el ID
-        workerDTO.setId(id);
-        Boolean success = workerBusiness.delete(workerDTO);
-        if (success) {
-            return new ResponseEntity<>("Worker deleted successfully", HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>("Failed to delete worker", HttpStatus.NOT_FOUND);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // Crear un DTO para pasar solo el ID
+            workerBusiness.delete(id);
+            response.put("message", "Worker deleted successfully");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            // Manejar excepciones generales
+            response.put("message", "Failed to delete worker: " + e);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
+
 }

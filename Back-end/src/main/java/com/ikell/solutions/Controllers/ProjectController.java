@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("api/project")
@@ -109,16 +110,18 @@ public class ProjectController {
 
     }
 
-    @DeleteMapping("/{id}")
-    public  ResponseEntity<String> deleteProjects (@PathVariable Long id){
-        ProjectDTO projectDTO = new ProjectDTO();
-        projectDTO.setId(id);
-        Boolean success = projectBusiness.delete(projectDTO);
-        if(success){
-            return new ResponseEntity<>("Worker deleted ", HttpStatus.NO_CONTENT);
-        }else {
-            return new ResponseEntity<>("Falied tod elete project", HttpStatus.NOT_FOUND);
-        }
+    @DeleteMapping("/delete/{id}")
+    public  ResponseEntity<Map<String, Object>> deleteProject(@PathVariable Long id){
+       Map<String,Object> response = new HashMap<>();
+
+       try{
+           projectBusiness.delete(id);
+           response.put("message","Project deleted successfully");
+           return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+       }catch (Exception e){
+           response.put("message","Error deleting user: "+ e.getMessage());
+           return  new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 
 }

@@ -34,11 +34,11 @@ public class Type_WorkerBusiness {
         }
     }
 
-    public Boolean delete(Type_WorkerDTO typeWorkerDTO){
+    public Boolean delete(Long id){
         try{
-            Type_Worker type_worker=modelMapper.map(typeWorkerDTO,Type_Worker.class);
-            this.type_workerService.delete(type_worker.getId());
-            return Boolean.TRUE;
+            Type_Worker type_worker = type_workerService.getById(id);
+            type_workerService.delete(type_worker);
+            return true;
         }catch (RuntimeException e){
             throw new RuntimeException(e);
         }

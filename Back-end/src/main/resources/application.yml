@@ -22,3 +22,6 @@ spring:
     allow-circular-references: true
 server:
   port: 8080
+
+huggingface:
+  api-key: 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

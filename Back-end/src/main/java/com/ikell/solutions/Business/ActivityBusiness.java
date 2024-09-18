@@ -36,11 +36,11 @@ public class ActivityBusiness  {
             throw new RuntimeException(e);
         }
     }
-    public Boolean delete(ActivityDTO activityDTO) {
+    public Boolean delete(Long id) {
         try {
-            Activity activity = modelMapper.map(activityDTO, Activity.class);
-            this.activityService.delete(activity.getId());
-            return Boolean.TRUE;
+            Activity activity = activityService.getById(id);
+            this.activityService.delete(activity);
+            return true;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

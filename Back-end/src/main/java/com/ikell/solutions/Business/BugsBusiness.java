@@ -29,11 +29,11 @@ public class BugsBusiness {
         }
     }
 
-    public Boolean delete(BugsDTO bugsDTO){
+    public Boolean delete(Long id){
         try{
-            Bugs bugs = modelMapper.map(bugsDTO, Bugs.class);
-            this.bugsService.delete(bugs.getId());
-            return  Boolean.TRUE;
+            Bugs bugs = bugsService.getById(id);
+            bugsService.delete(bugs);
+            return true;
         }catch (RuntimeException e){
             throw new RuntimeException(e);
         }

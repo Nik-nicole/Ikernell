@@ -1,10 +1,7 @@
 package com.ikell.solutions.Service;
 
-import com.ikell.solutions.DTO.ActivityDTO;
 import com.ikell.solutions.Entities.Activity;
-import com.ikell.solutions.Entities.Project;
 import com.ikell.solutions.Repository.ActivityRepository;
-import com.ikell.solutions.Repository.ProjectRepository;
 import com.ikell.solutions.Service.dao.Idao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +27,6 @@ public class ActivityService implements Idao<Activity, Long>{
     @Override
     public void save(Activity object){this.activityRepository.save(object);}
 
-
     @Override
-    public void delete(Long id) {
-        Activity activity=this.activityRepository.getById(id);
-        if(activity !=null){
-            this.activityRepository.delete(activity);
-        }
-    }
+    public void delete(Activity object) {this.activityRepository.delete(object);    }
 }

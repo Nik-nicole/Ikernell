@@ -4,10 +4,14 @@ import com.ikell.solutions.DTO.WorkerDTO;
 import com.ikell.solutions.Entities.Worker;
 import com.ikell.solutions.Repository.WorkerRepository;
 import com.ikell.solutions.Service.WorkerService;
+import com.ikell.solutions.Utilities.CustomException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.events.EventException;
 
 import java.util.List;
 
@@ -27,21 +31,30 @@ public class WorkerBusiness {
     public Boolean add(WorkerDTO workerDTO) {
         try {
             Worker worker = modelMapper.map(workerDTO, Worker.class);
-            workerService.save(worker); // Llama al servicio para guardar el trabajador
+
+
+            if (this.workerService.existsByEmail(workerDTO.getEmail())) {
+                throw new CustomException("Duplicate email: " + worker.getEmail());
+            }
+            if (this.workerService.existsByIdentification(workerDTO.getIdentification())){
+                throw new CustomException("Duplicate identification: "+worker.getIdentification());
+            }
+
+            workerService.save(worker);
             return true;
         } catch (Exception e) {
-            e.printStackTrace(); // Registra el error para depuración
-            return false;
+            throw new CustomException("Error adding worker: "+e.getMessage());
         }
     }
 
-    public Boolean delete(WorkerDTO workerDTO) {
+    public Boolean delete(Long id) {
         try {
-            Worker worker = modelMapper.map(workerDTO, Worker.class);
-            this.workerService.delete(worker.getId());
-            return Boolean.TRUE;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            Worker worker = this.workerService.getById(id);
+            workerService.delete(worker);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting worker: " + e.getMessage(), e);
         }
     }
 }
+

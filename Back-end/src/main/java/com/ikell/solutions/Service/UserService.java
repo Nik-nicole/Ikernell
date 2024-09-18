@@ -1,10 +1,8 @@
 package com.ikell.solutions.Service;
 
-import com.fasterxml.jackson.core.PrettyPrinter;
 import com.ikell.solutions.Entities.User;
 import com.ikell.solutions.Repository.UserRepository;
 import com.ikell.solutions.Service.dao.Idao;
-import jakarta.servlet.http.PushBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,6 @@ public class UserService implements Idao<User, Long> {
     public void save(User object){ this.userRepository.save(object);}
 
     @Override
-    public void  delete(Long id){}
+    public void delete(User object){this.userRepository.delete(object);}
 
 }

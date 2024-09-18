@@ -68,18 +68,21 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser (@PathVariable Long id) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(id);
-        Boolean success = userBusiness.delete(userDTO);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
 
-        if (success){
-            return new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);
+        try {
+            userBusiness.delete(id);
+            response.put("message:","User deleted successfully");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
 
-        }else {
-            return new ResponseEntity<>("Failed to delete user",HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // Manejo de excepciones generales
+            response.put("message", "Error deleting user: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
 

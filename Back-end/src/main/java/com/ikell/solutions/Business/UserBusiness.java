@@ -32,11 +32,11 @@ public class UserBusiness {
             return  Boolean.FALSE;
         }
     }
-    public Boolean delete(UserDTO userDTO) {
+    public Boolean delete(Long id) {
         try {
-            User user = modelMapper.map(userDTO, User.class);
-            this.userService.delete(user.getId());
-            return Boolean.TRUE;
+            User user = userService.getById(id);
+            userService.delete(user);
+            return true;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

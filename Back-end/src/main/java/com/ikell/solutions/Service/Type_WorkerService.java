@@ -1,6 +1,5 @@
 package com.ikell.solutions.Service;
 
-import com.ikell.solutions.Entities.Project;
 import com.ikell.solutions.Entities.Type_Worker;
 import com.ikell.solutions.Repository.Type_WorkerRepository;
 import com.ikell.solutions.Service.dao.Idao;
@@ -26,14 +25,8 @@ public class Type_WorkerService implements Idao<Type_Worker, Long>{
     }
 
     @Override
-    public void save(Type_Worker object) {this.type_workerRepository.save(object);
-    }
+    public void save(Type_Worker object) {this.type_workerRepository.save(object);}
 
     @Override
-    public void delete(Long id){
-        Type_Worker  type_worker=this.type_workerRepository.getById(id);
-        if (type_worker !=null){
-            this.type_workerRepository.delete(type_worker);
-        }
-         }
+    public void delete(Type_Worker object) {this.type_workerRepository.delete(object);}
 }
