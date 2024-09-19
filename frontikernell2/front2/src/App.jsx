@@ -6,6 +6,7 @@ import Projects from "./pages/Projects";
 import Dashboard from "./components/Sidenav"
 import Sidenav from "./components/Sidenav"
 import Workers from "./pages/Workers";
+import Chatgpt from "./pages/Chatgpt"
 
 export default function App(){
   return(
@@ -16,6 +17,7 @@ export default function App(){
           <Route path="/Home" element={<Home/>}/>
           <Route path="/projects" element = {<Projects />}/>
           <Route path="/Workers" element ={<Workers/>}/>
+          <Route path="/Chatgpt" element={<Chatgpt/>}/>
         <Route/>
       </Routes>
      </BrowserRouter>
