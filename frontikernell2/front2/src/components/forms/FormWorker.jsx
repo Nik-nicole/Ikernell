@@ -4,18 +4,21 @@ import WorkerService from "../../service/WorkerService";
 
 const Worker = () => {
     const [worker, setWorker] = useState({
-        firstName: '',
+        name: '',
         lastName: '',
         email: '',
         address: '',
-        startDate: '',
+        dateBorn: '',
         identification: '',
         profession: '',
-        speciality: ''
+        specialityDev: ''
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        console.log("@@@@@@@@",name);
+        console.log("@@@@@@@1",value);
+         
         setWorker((prevWorker) => ({
             ...prevWorker,
             [name]: value
@@ -24,8 +27,12 @@ const Worker = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
         try {
-            await WorkerService.createWorker(worker);
+            let data={data:worker};
+            console.log("@@@@@2",data);
+            
+            await WorkerService.createWorker(data);
             alert('Worker created successfully!');
             // Optionally, reset form or navigate to another page
         } catch (error) {
@@ -50,8 +57,8 @@ const Worker = () => {
                         <TextInput
                             type="text"
                             id="first-name"
-                            name="firstName"
-                            value={worker.firstName}
+                            name="name"
+                            value={worker.name}
                             onChange={handleChange}
                             autoComplete="given-name"
                             placeholder="First name"
@@ -112,8 +119,8 @@ const Worker = () => {
                         <input
                             type="date"
                             id="start-date"
-                            name="startDate"
-                            value={worker.startDate}
+                            name="dateBorn"
+                            value={worker.dateBorn}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm px-4 py-2"
                         />
@@ -152,8 +159,8 @@ const Worker = () => {
                         </label>
                         <select
                             id="speciality"
-                            name="speciality"
-                            value={worker.speciality}
+                            name="specialityDev"
+                            value={worker.specialityDev}
                             onChange={handleChange}
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2"
                         >

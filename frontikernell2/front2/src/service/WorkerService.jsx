@@ -1,7 +1,7 @@
-import { data } from "autoprefixer";
 import axios from "axios";
 
 const API_URL ='http://localhost:8080/api/workers'
+
 
 const getWorker = async () =>{
     try {
@@ -17,10 +17,13 @@ const getWorker = async () =>{
 
 const createWorker = async (workerData) => {
     try {
-        const response = await axios.post(API_URL, workerData);
+         //data["data"=workerData];
+         
+        const response = await axios.post(API_URL+"/add", workerData);
         console.log('createWorker response:', response.data);
         return response.data;
-    } catch (error) {
+
+    } catch (error) {   
         console.error('Error creating Worker:', error.message);
         if (error.response) {
             console.error('Error response:', error.response.data);

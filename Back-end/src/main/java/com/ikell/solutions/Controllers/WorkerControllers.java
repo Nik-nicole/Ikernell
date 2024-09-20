@@ -14,13 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.events.EventException;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/workers")
+@RequestMapping(path = "/api/workers",method = {RequestMethod.DELETE,RequestMethod.GET,RequestMethod.PUT,RequestMethod.POST})
+@CrossOrigin(origins = "*")
 public class WorkerControllers {
 
     @Autowired
@@ -53,17 +55,17 @@ public class WorkerControllers {
         try {
             WorkerDTO workerDTO = new WorkerDTO();
             JSONObject jsonObject = new JSONObject(json);
-
             JSONObject dataObject = jsonObject.getJSONObject("data");
+            System.out.println("#####"+dataObject);
             workerDTO.setId(0L);
             workerDTO.setName(dataObject.getString("name"));
             workerDTO.setLastName(dataObject.getString("lastName"));
             workerDTO.setEmail(dataObject.getString("email"));
-            workerDTO.setDirection(dataObject.getString("direction"));
-            workerDTO.setDateBorn(new Date(dataObject.getLong("dateBorn")));
+            workerDTO.setDirection(dataObject.getString("address"));
+            workerDTO.setDateBorn(Date.parse(dataObject.get("dateBorn").toString()));
             workerDTO.setIdentification(dataObject.getInt("identification"));
             workerDTO.setProfession(dataObject.getString("profession"));
-            workerDTO.setSpecialtyDev(dataObject.getString("specialtyDev"));
+            workerDTO.setSpecialtyDev(dataObject.getString("specialityDev"));
 
 
             if (this.workerBusiness.add(workerDTO)) {
