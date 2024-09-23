@@ -10,7 +10,7 @@ export default function Chatform() {
   const [isLoading, setIsLoading] = useState(false);
   const containerRef = useRef(null);
 
-  useEffect(() => {
+  useEffect(() => 
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
