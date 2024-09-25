@@ -1,26 +1,22 @@
-import React from "react";
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import { Root } from "postcss";
-import  Home from "./pages/Home"
-import Projects from "./pages/Projects";
-import Dashboard from "./components/Sidenav"
-import Sidenav from "./components/Sidenav"
-import Workers from "./pages/Workers";
-import Chatgpt from "./pages/Chatgpt"
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Pollo from './pages/Pollo'; // Asegúrate de que esta ruta sea correcta
+import Res from './pages/Res'; // Elimina la importación duplicada
+import Pescado from './pages/Pescado'; // Asegúrate de que el componente Home esté importado
+import Sidenav from './components/Sidenav';
+import Landingpage from './components/Landingpage';
 
-export default function App(){
-  return(
+export default function App() {
+  return (
     <>
-     <BrowserRouter>
-     <Routes>
-        <Route path="/" element={<Sidenav/>}/>
-          <Route path="/Home" element={<Home/>}/>
-          <Route path="/projects" element = {<Projects />}/>
-          <Route path="/Workers" element ={<Workers/>}/>
-          <Route path="/Chatgpt" element={<Chatgpt/>}/>
-        <Route/>
-      </Routes>
-     </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Sidenav />} />
+          <Route path= "/LandingPage" element={<Landingpage />} />
+          <Route path="/Pollo" element={<Pollo />} />
+          <Route path="/Res" element={<Res />} />
+          <Route path="/Pescado" element={<Pescado />} />
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }

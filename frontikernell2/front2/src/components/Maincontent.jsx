@@ -1,5 +1,5 @@
 // src/components/MainContent.jsx
-import React from 'react';
+
 
 const MainContent = () => {
   return (

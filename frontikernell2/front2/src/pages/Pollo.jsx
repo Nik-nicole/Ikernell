@@ -1,11 +1,10 @@
-// src/pages/Workers.jsx
-import React from 'react';
-import Sidenav from '../components/Sidenav';
-import FormWorker from '../components/forms/FormWorker';
+import Sidenav from "../components/Sidenav"
+import FormWorker from "../components/forms/FormWorker"
 
-const Workers = () => {
+const Pollo = () => {
   return (
-    <div className="flex h-screen bg-gray-100 min-h-screen">
+    <div>
+       <div className="flex h-screen bg-gray-100 min-h-screen">
       <Sidenav />
       <div className="flex-1 p-6 overflow-y-auto">
         <div className="flex flex-col mb-6">
@@ -17,7 +16,8 @@ const Workers = () => {
         </div>
       </div>
     </div>
-  );
-};
+    </div>
+  )
+}
 
-export default Workers;
+export default Pollo;
