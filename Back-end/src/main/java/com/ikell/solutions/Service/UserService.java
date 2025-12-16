@@ -14,6 +14,10 @@ public class UserService implements Idao<User, Long> {
     @Autowired
     private UserRepository userRepository;
 
+    public User findByWorkerEmail(String email) {
+        return userRepository.findByWorkerEmail(email);
+    }
+
     @Override
     public List<User>findAll(){return this.userRepository.findAll();}
 

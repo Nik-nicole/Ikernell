@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"idf_typeWorkers","id_projectList"})
+@EqualsAndHashCode(exclude = {"idf_typeWorkers","id_projectList", "user"})
 public class Worker {
 
     @Id
@@ -57,5 +57,9 @@ public class Worker {
     @OneToOne(mappedBy = "worker", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JsonManagedReference
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    private Company company;
 
 }

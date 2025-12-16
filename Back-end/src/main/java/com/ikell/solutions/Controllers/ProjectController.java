@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("api/project")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProjectController {
 
     @Autowired

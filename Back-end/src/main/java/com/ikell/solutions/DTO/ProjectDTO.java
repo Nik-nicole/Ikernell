@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,4 +18,6 @@ public class ProjectDTO {
     private Date date_start;
     private Date date_end;
     private String state;
+    private Long companyId;
+    private List<Long> workerIds;
 }

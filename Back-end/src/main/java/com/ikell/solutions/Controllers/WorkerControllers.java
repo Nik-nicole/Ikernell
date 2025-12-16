@@ -22,7 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/workers",method = {RequestMethod.DELETE,RequestMethod.GET,RequestMethod.PUT,RequestMethod.POST})
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WorkerControllers {
 
     @Autowired
@@ -62,7 +62,7 @@ public class WorkerControllers {
             workerDTO.setLastName(dataObject.getString("lastName"));
             workerDTO.setEmail(dataObject.getString("email"));
             workerDTO.setDirection(dataObject.getString("address"));
-            workerDTO.setDateBorn(Date.parse(dataObject.get("dateBorn").toString()));
+            workerDTO.setDateBorn(new Date(dataObject.getLong("dateBorn")));
             workerDTO.setIdentification(dataObject.getInt("identification"));
             workerDTO.setProfession(dataObject.getString("profession"));
             workerDTO.setSpecialtyDev(dataObject.getString("specialityDev"));

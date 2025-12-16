@@ -3,7 +3,6 @@ package com.ikell.solutions.Business;
 
 import com.ikell.solutions.DTO.UserDTO;
 import com.ikell.solutions.Entities.User;
-import com.ikell.solutions.Repository.UserRepository;
 import com.ikell.solutions.Service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,18 @@ public class UserBusiness {
     @Autowired
     private UserService userService;
     private ModelMapper modelMapper=new ModelMapper();
+
+    public User authenticate(String email, String password) {
+        try {
+            User user = userService.findByWorkerEmail(email);
+            if (user != null && user.getPassword().equals(password)) {
+                return user;
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 
     public List<User>findAll(){return  this.userService.findAll();}
