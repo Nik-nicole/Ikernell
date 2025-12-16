@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { usersAPI, workersAPI } from '../services/api';
+import { usersAPI } from '../services/usersAPI';
+import {workersAPI} from '../services/workersAPI'
 import { 
   UsersIcon, 
   PlusIcon, 

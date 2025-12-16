@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+
 import { 
   BuildingOfficeIcon, 
   PlusIcon, 
@@ -10,7 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 const SuperAdminDashboard = () => {
-  const { user } = useAuth();
+
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +24,9 @@ const SuperAdminDashboard = () => {
     try {
       const response = await fetch('http://localhost:8080/api/companies');
       const data = await response.json();
-      setCompanies(data);
+      setCompanies(data.data);
+      const method = editingCompany ? 'PUT' : 'POST';
+
     } catch (error) {
       console.error('Error fetching companies:', error);
     } finally {

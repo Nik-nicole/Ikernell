@@ -19,8 +19,8 @@ const CompanyAdminDashboard = () => {
   const fetchCompanyData = useCallback(async () => {
     try {
       const [projectsRes, workersRes] = await Promise.all([
-        fetch(`http://localhost:8080/api/projects/company/${user.companyId}`),
-        fetch(`http://localhost:8080/api/workers/company/${user.companyId}`)
+        fetch(`http://localhost:8080/api/companies/${user.companyId}`),
+        fetch(`http://localhost:8080/api/companies/${user.companyId}`)
       ]);
       
       const projectsData = await projectsRes.json();

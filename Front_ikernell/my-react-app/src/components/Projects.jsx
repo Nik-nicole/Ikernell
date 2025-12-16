@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { projectsAPI } from '../services/api';
+import { projectsAPI } from '../services/projectsAPI';
 import SearchFilter from './SearchFilter';
 import { 
   BriefcaseIcon, 

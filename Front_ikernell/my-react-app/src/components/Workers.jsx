@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { workersAPI } from '../services/api';
+import { workersAPI } from '../services/workersAPI';
 import { 
   UserGroupIcon, 
   PlusIcon, 
