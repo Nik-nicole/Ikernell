@@ -25,7 +25,7 @@ public class Type_WorkerService implements Idao<Type_Worker, Long>{
     }
 
     @Override
-    public void save(Type_Worker object) {this.type_workerRepository.save(object);}
+    public Type_Worker save(Type_Worker object) { return type_workerRepository.save(object);}
 
     @Override
     public void delete(Type_Worker object) {this.type_workerRepository.delete(object);}

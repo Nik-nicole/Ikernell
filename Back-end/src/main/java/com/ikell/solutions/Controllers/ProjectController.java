@@ -2,7 +2,9 @@ package com.ikell.solutions.Controllers;
 
 import com.ikell.solutions.Business.ProjectBusiness;
 import com.ikell.solutions.DTO.ProjectDTO;
+import com.ikell.solutions.DTO.ProjectResponseDTO;
 import com.ikell.solutions.Entities.Project;
+import com.ikell.solutions.Utilities.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,103 +16,64 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/projects")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 public class ProjectController {
 
     @Autowired
     private ProjectBusiness projectBusiness;
 
-    // ===================== GET ALL =====================
+    // GET ALL
     @GetMapping
-    public ResponseEntity<List<Project>> getAllProjects() {
-        return new ResponseEntity<>(projectBusiness.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Project>> getAll() {
+        return ResponseEntity.ok(projectBusiness.findAll());
     }
 
-    // ===================== GET BY ID =====================
+    // GET BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
-        Project project = projectBusiness.findById(id);
-        return project != null
-                ? new ResponseEntity<>(project, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Project> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(projectBusiness.findById(id));
     }
 
-    // ===================== CREATE =====================
+    // CREATE
     @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> createProject(
-            @RequestBody Map<String, ProjectDTO> request) {
-
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            ProjectDTO projectDTO = request.get("data");
-
-            if (projectDTO == null) {
-                response.put("message", "Missing 'data' object");
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-            }
-
-            if (projectBusiness.add(projectDTO)) {
-                response.put("message", "Project added successfully");
-                response.put("data", projectDTO);
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
-            }
-
-            response.put("message", "Failed to add project");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-
-        } catch (Exception e) {
-            response.put("message", "Error processing request: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> create(@RequestBody ProjectDTO dto) {
+        Project project = projectBusiness.add(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(project);
     }
 
-    // ===================== UPDATE =====================
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Map<String, Object>> updateProject(
+    // UPDATE
+    @PutMapping("/{id}")
+    public ResponseEntity<ProjectResponseDTO> update(
             @PathVariable Long id,
-            @RequestBody Map<String, ProjectDTO> request) {
+            @RequestBody ProjectDTO dto) {
 
-        Map<String, Object> response = new HashMap<>();
+        dto.setId(id);
+        Project project = projectBusiness.update(dto);
 
-        try {
-            ProjectDTO projectDTO = request.get("data");
-
-            if (projectDTO == null) {
-                response.put("message", "Missing 'data' object");
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-            }
-
-            projectDTO.setId(id);
-
-            if (projectBusiness.update(projectDTO)) {
-                response.put("message", "Project updated successfully");
-                response.put("data", projectDTO);
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            }
-
-            response.put("message", "Project not found");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-
-        } catch (Exception e) {
-            response.put("message", "Error processing request: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok(
+                projectBusiness.toResponse(project)
+        );
     }
 
-    // ===================== DELETE =====================
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Map<String, Object>> deleteProject(@PathVariable Long id) {
-        Map<String, Object> response = new HashMap<>();
 
-        try {
-            projectBusiness.delete(id);
-            response.put("message", "Project deleted successfully");
-            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    // UPDATE WORKERS
+    @PutMapping("/{id}/workers")
+    public ResponseEntity<?> updateWorkers(
+            @PathVariable Long id,
+            @RequestBody List<Long> workerIds) {
 
-        } catch (Exception e) {
-            response.put("message", "Error deleting project: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        if (workerIds == null) {
+            throw new CustomException("workerIds cannot be null");
         }
+
+        projectBusiness.updateWorkers(id, workerIds);
+        return ResponseEntity.ok(Map.of("message", "Workers updated"));
+    }
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        projectBusiness.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

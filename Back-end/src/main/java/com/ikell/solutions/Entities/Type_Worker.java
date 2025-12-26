@@ -1,6 +1,7 @@
 package com.ikell.solutions.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +28,6 @@ public class Type_Worker {
     private String name;
 
     @ManyToMany(mappedBy = "idf_typeWorkers",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @JsonBackReference
     private List<Worker> idf_workers;
 }

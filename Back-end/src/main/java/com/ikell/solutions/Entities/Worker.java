@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +53,8 @@ public class Worker {
     private List<Type_Worker> idf_typeWorkers;
 
     @ManyToMany(mappedBy = "id_workerList",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    private List<Project> id_projectList;
+    @JsonManagedReference
+    private List<Project> id_projectList = new ArrayList<>();
 
     @OneToOne(mappedBy = "worker", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JsonManagedReference
@@ -61,5 +63,6 @@ public class Worker {
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     private Company company;
+
 
 }

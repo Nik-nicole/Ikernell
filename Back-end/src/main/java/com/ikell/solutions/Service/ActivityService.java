@@ -25,7 +25,7 @@ public class ActivityService implements Idao<Activity, Long>{
     }
 
     @Override
-    public void save(Activity object){this.activityRepository.save(object);}
+    public Activity save(Activity object){ return activityRepository.save(object);}
 
     @Override
     public void delete(Activity object) {this.activityRepository.delete(object);    }

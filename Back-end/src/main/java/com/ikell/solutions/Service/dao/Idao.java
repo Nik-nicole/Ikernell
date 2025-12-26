@@ -8,7 +8,7 @@ public interface Idao <T, ID> {
 
     public T getById(ID id);
 
-    public void save (T object);
+    public T save (T object);
 
     public void delete (T object);
 }

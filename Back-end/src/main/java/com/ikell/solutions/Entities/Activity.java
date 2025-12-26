@@ -1,6 +1,7 @@
 package com.ikell.solutions.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,11 +35,13 @@ public class Activity {
     @Column(nullable = false)
     private Date date_limit;
 
-    @Column(nullable = false)
-    private Enum<states_A> state_A;
+    @Enumerated(EnumType.STRING)
+    private states_A state_A;
 
-    @ManyToOne
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "fk_project_id_Activity")
+    @JsonBackReference
     private Project project;
 
 }

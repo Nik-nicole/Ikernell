@@ -25,7 +25,7 @@ public class UserService implements Idao<User, Long> {
     public User getById(Long aLong){return this.userRepository.getReferenceById(aLong);}
 
     @Override
-    public void save(User object){ this.userRepository.save(object);}
+    public User save(User object){ return userRepository.save(object);}
 
     @Override
     public void delete(User object){this.userRepository.delete(object);}

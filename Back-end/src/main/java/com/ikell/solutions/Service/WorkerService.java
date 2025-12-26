@@ -24,7 +24,8 @@ public class WorkerService implements Idao <Worker, Long>{
     }
 
     @Override
-    public void save(Worker object){this.workerRepository.save(object);}
+    public Worker save(Worker object){return workerRepository.save(object);}
+
 
     @Override
     public void delete(Worker object) {this.workerRepository.delete(object);}

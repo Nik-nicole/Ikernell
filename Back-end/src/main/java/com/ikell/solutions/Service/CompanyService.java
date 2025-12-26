@@ -26,8 +26,8 @@ public class CompanyService implements Idao<Company, Long> {
     }
 
     @Override
-    public void save(Company entity) {
-        companyRepository.save(entity);
+    public Company save(Company entity) {
+        return companyRepository.save(entity);
     }
 
     @Override

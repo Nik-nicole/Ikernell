@@ -21,7 +21,7 @@ public class BugsService implements Idao<Bugs, Long> {
     public Bugs getById(Long aLong){ return this.bugsRepository.getReferenceById(aLong); }
 
     @Override
-    public void save(Bugs object){this.bugsRepository.save(object); }
+    public Bugs save(Bugs object){ return bugsRepository.save(object); }
 
     @Override
     public void delete(Bugs object){this.bugsRepository.delete(object);

@@ -1,60 +1,70 @@
 package com.ikell.solutions.Business;
 
 import com.ikell.solutions.DTO.WorkerDTO;
+import com.ikell.solutions.Entities.Project;
 import com.ikell.solutions.Entities.Worker;
-import com.ikell.solutions.Repository.WorkerRepository;
 import com.ikell.solutions.Service.WorkerService;
 import com.ikell.solutions.Utilities.CustomException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.events.EventException;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Transactional
 public class WorkerBusiness {
 
-    @Autowired
-    private WorkerService workerService;  // Aquí se añadió @Autowired
+    private final WorkerService workerService;
+    private final ModelMapper modelMapper;
 
-    private ModelMapper modelMapper = new ModelMapper();
-
-    public List<Worker> findAllWorker() {return workerService.findAll();}
-
-    public Worker findById(Long id) {return this.workerService.getById(id);}
-
-
-    public Boolean add(WorkerDTO workerDTO) {
-        try {
-            Worker worker = modelMapper.map(workerDTO, Worker.class);
-
-
-            if (this.workerService.existsByEmail(workerDTO.getEmail())) {
-                throw new CustomException("Duplicate email: " + worker.getEmail());
-            }
-            if (this.workerService.existsByIdentification(workerDTO.getIdentification())){
-                throw new CustomException("Duplicate identification: "+worker.getIdentification());
-            }
-
-            workerService.save(worker);
-            return true;
-        } catch (Exception e) {
-            throw new CustomException("Error adding worker: "+e.getMessage());
-        }
+    public WorkerBusiness(WorkerService workerService, ModelMapper modelMapper) {
+        this.workerService = workerService;
+        this.modelMapper = modelMapper;
     }
 
-    public Boolean delete(Long id) {
-        try {
-            Worker worker = this.workerService.getById(id);
-            workerService.delete(worker);
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException("Error deleting worker: " + e.getMessage(), e);
+    public List<Worker> findAll() {
+        return workerService.findAll();
+    }
+
+    public Worker findById(Long id) {
+
+        Worker worker = workerService.getById(id);
+
+        if (worker == null) {
+            throw new CustomException("Worker not found with id: " + id);
         }
+
+        return worker;
+    }
+
+
+    public Worker create(WorkerDTO dto) {
+
+        if (workerService.existsByEmail(dto.getEmail())) {
+            throw new CustomException("Email already exists");
+        }
+
+        if (workerService.existsByIdentification(dto.getIdentification())) {
+            throw new CustomException("Identification already exists");
+        }
+
+        Worker worker = modelMapper.map(dto, Worker.class);
+        worker.setId_projectList(new ArrayList<>()); // ✅ IMPORTANTE
+
+        return workerService.save(worker);
+    }
+
+    public void delete(Long id) {
+        Worker worker = findById(id);
+
+        // limpiar relaciones
+        for (Project project : worker.getId_projectList()) {
+            project.getId_workerList().remove(worker);
+        }
+
+        workerService.delete(worker);
     }
 }
-

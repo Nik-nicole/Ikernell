@@ -9,40 +9,75 @@ import com.ikell.solutions.Service.ProjectService;
 import org.aspectj.apache.bcel.generic.RET;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Service
 public class ActivityBusiness  {
 
-    @Autowired
-    private ActivityService activityService;
+    private final ActivityService activityService;
+    private final ModelMapper modelMapper;
+    private ProjectService projectService;
 
-    private ModelMapper modelMapper=new ModelMapper();
 
-    public List<Activity> findAll(){
-        return  this.activityService.findAll();
+    public ActivityBusiness(ActivityService activityService, ModelMapper modelMapper,
+                             ProjectService projectService) {
+        this.activityService = activityService;
+        this.modelMapper = modelMapper;
+        this.projectService = projectService;
     }
 
-    public Activity findById(Long id){
-        return  this.activityService.getById(id);
+    // GET ALL
+    public List<ActivityDTO> findAll(){
+         return activityService.findAll()
+                 .stream()
+                 .map(activity -> modelMapper.map(activity, ActivityDTO.class))
+                 .collect(Collectors.toList());
     }
 
-    public Boolean add(ActivityDTO activityDTO){
-        try{
-            Activity activity=modelMapper.map(activityDTO,Activity.class);
-            this.activityService.save(activity);
-            return Boolean.TRUE;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+    //GET BY ID
+    public ActivityDTO findById(Long id ){
+        Activity activity = activityService.getById(id);
+
+        if (activity == null){
+            throw  new RuntimeException("Activity not found with id:" +id);
         }
+        return modelMapper.map(activity, ActivityDTO.class);
     }
-    public Boolean delete(Long id) {
-        try {
-            Activity activity = activityService.getById(id);
-            this.activityService.delete(activity);
-            return true;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+
+    //CREATE
+    public ActivityDTO save(ActivityDTO activityDTO){
+        Project project = projectService.getById(activityDTO.getProjectId());
+
+        if (project == null ){
+            throw new IllegalArgumentException(
+                    "project not found with id: " + activityDTO.getProjectId()
+            );
         }
+
+
+        Activity activity = modelMapper.map(activityDTO, Activity.class);
+        Activity savedActivity = activityService.save(activity);
+
+        return modelMapper.map(savedActivity, ActivityDTO.class);
+
     }
+
+    public void delete(Long id) {
+        Activity activity = activityService.getById(id);
+
+        if (activity == null) {
+            throw new RuntimeException("Activity not found with id: " + id);
+        }
+
+        // 🔹 Ejemplo de regla de negocio:
+        // if (activity.isCompleted()) {
+        //     throw new RuntimeException("Completed activities cannot be deleted");
+        // }
+
+        activityService.delete(activity);
+    }
+
 }

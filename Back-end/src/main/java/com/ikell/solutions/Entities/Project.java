@@ -1,6 +1,7 @@
 package com.ikell.solutions.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,13 +44,15 @@ public class Project {
     @JsonBackReference
     private Company company;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinTable(name = "projec_workeds",
        joinColumns = @JoinColumn(name = "fk_id_project"),
       inverseJoinColumns = @JoinColumn(name = "fk_id_worked"))
-    private List<Worker> id_workerList;
+    private List<Worker> id_workerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
     private List<Activity> activityList = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
