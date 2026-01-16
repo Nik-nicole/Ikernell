@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,9 +37,14 @@ public class ProjectController {
 
     // CREATE
     @PostMapping("/add")
-    public ResponseEntity<?> create(@RequestBody ProjectDTO dto) {
-        Project project = projectBusiness.add(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(project);
+    public ResponseEntity<?> create(@RequestBody ProjectDTO dto, Authentication authentication) {
+        // Obtenemos el email del token de seguridad
+        String userEmail = authentication.getName();
+
+        // Enviamos el DTO Y el email al Business
+        Project project = projectBusiness.add(dto, userEmail);
+
+        return ResponseEntity.ok(projectBusiness.toResponse(project));
     }
 
     // UPDATE

@@ -6,6 +6,7 @@ import com.ikell.solutions.Entities.Worker;
 import com.ikell.solutions.Utilities.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -36,7 +37,8 @@ public class WorkerController {
     }
 
     // ===================== CREATE =====================
-    @PostMapping
+    @PostMapping("/add")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO workerDTO) {
         Worker savedWorker = workerBusiness.create(workerDTO);
         return new ResponseEntity<>(savedWorker, HttpStatus.CREATED);

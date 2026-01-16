@@ -1,6 +1,7 @@
 package com.ikell.solutions.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -60,8 +61,9 @@ public class Worker {
     @JsonManagedReference
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id", nullable = false)  // Asegúrate de que no sea nulo
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  // Añade esta línea
     private Company company;
 
 

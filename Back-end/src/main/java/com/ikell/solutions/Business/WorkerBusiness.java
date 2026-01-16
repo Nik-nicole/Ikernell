@@ -1,10 +1,15 @@
 package com.ikell.solutions.Business;
 
 import com.ikell.solutions.DTO.WorkerDTO;
+import com.ikell.solutions.Entities.Company;
 import com.ikell.solutions.Entities.Project;
 import com.ikell.solutions.Entities.Worker;
+import com.ikell.solutions.Repository.CompanyRepository;
 import com.ikell.solutions.Service.WorkerService;
 import com.ikell.solutions.Utilities.CustomException;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -18,11 +23,13 @@ import java.util.List;
 public class WorkerBusiness {
 
     private final WorkerService workerService;
+    private final CompanyRepository companyRepository;
     private final ModelMapper modelMapper;
 
-    public WorkerBusiness(WorkerService workerService, ModelMapper modelMapper) {
+    public WorkerBusiness(WorkerService workerService, ModelMapper modelMapper, CompanyRepository companyRepository) {
         this.workerService = workerService;
         this.modelMapper = modelMapper;
+        this.companyRepository = companyRepository;
     }
 
     public List<Worker> findAll() {
@@ -54,7 +61,11 @@ public class WorkerBusiness {
         Worker worker = modelMapper.map(dto, Worker.class);
         worker.setId_projectList(new ArrayList<>()); // ✅ IMPORTANTE
 
-        return workerService.save(worker);
+        Company company = companyRepository.findById(dto.getCompanyId())
+        .orElseThrow(() -> new EntityNotFoundException("Compañía no encontrada"));
+    
+            worker.setCompany(company);
+            return workerService.save(worker);
     }
 
     public void delete(Long id) {

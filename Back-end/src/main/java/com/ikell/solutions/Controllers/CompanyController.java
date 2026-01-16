@@ -7,6 +7,7 @@ import com.ikell.solutions.Utilities.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class CompanyController {
     // ================================
     // GET ALL
     // ================================
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllCompanies() {
 
@@ -40,6 +42,7 @@ public class CompanyController {
     // ================================
     // GET BY ID
     // ================================
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getCompanyById(@PathVariable Long id) {
 
@@ -58,6 +61,7 @@ public class CompanyController {
     // ================================
     // CREATE
     // ================================
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> add(
             @RequestBody Map<String, CompanyDTO> request) {
@@ -117,6 +121,7 @@ public class CompanyController {
     // ================================
     // DELETE
     // ================================
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
 

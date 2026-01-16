@@ -34,7 +34,7 @@ public class Type_WorkerControllers {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<String> createTypeWorker(@RequestBody Type_WorkerDTO typeWorkerDTO) {
         Boolean success = typeWorkerBusiness.add(typeWorkerDTO);
         if (success) {

@@ -5,6 +5,7 @@ import com.ikell.solutions.DTO.ActivityDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ActivityController {
     }
 
     // ===================== GET ALL =====================
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping
     public ResponseEntity<List<ActivityDTO>> getAllActivities() {
         List<ActivityDTO> activities = activityBusiness.findAll();
@@ -28,6 +30,7 @@ public class ActivityController {
     }
 
     // ===================== GET BY ID =====================
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ActivityDTO> getActivityById(@PathVariable Long id) {
         ActivityDTO activity = activityBusiness.findById(id);
@@ -35,6 +38,7 @@ public class ActivityController {
     }
 
     // ===================== CREATE =====================
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<ActivityDTO> createActivity(
             @Valid @RequestBody ActivityDTO activityDTO) {
@@ -44,6 +48,7 @@ public class ActivityController {
     }
 
     // ===================== DELETE =====================
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteActivity(@PathVariable Long id) {
         activityBusiness.delete(id);

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserBusiness {
@@ -29,12 +30,9 @@ public class UserBusiness {
     private CompanyService companyService;
 
     // ===================== AUTH =====================
-    public User authenticate(String email, String password) {
-        User user = userService.findByWorkerEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
+
+    public Optional<User> findByEmail(String email) {
+        return userService.findByWorkerEmail(email);
     }
 
     // ===================== CRUD =====================
